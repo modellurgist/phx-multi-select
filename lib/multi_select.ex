@@ -95,11 +95,24 @@ defmodule Phoenix.LiveView.Components.MultiSelect do
   attr :filter_side,        :atom,    default:  :client, values: [:client, :server]
 
   def multi_select(assigns) do
-    assigns = assign(assigns, :options, (for o <- assigns.options, do: Option.new(o)))
-    rest    = Phoenix.Component.assigns_to_attributes(assigns, [])
-    assigns = assign(assigns, :rest,    rest)
+    options = for o <- assigns.options, do: Option.new(o)
+    filter_checked_options = filter_checked_options(options)
+    rest = Phoenix.Component.assigns_to_attributes(assigns, [])
+
+    assigns =
+      assigns
+      |> assign(:rest, rest)
+      |> assign(:options, options)
+      |> assign(:checked_options, filter_checked_options)
+      |> assign(:selected_count, Enum.count(filter_checked_options))
+
     ~H"""
-    <.live_component module={__MODULE__} {@rest}/>
+    <.live_component
+      module={__MODULE__}
+      checked_options={@checked_options}
+      selected_count={@selected_count}
+      {@rest}
+    />
     """
   end
 
