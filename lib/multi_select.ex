@@ -73,6 +73,7 @@ defmodule Phoenix.LiveView.Components.MultiSelect do
     * `:wrap` - allow to wrap selected tags to multiple lines
     * `:title` - component's title to use as the tooltip
     * `:placeholder` - component's placeholder text
+    * `:search_enabled` - search input box visible and usable
     * `:search_placeholder` - placeholder for the search input box
     * `:search_cbox_titles` - titles `on|off` of the checked icon in the search checkbox
       (default: "Clear filter of selected items|Filter selected items")
@@ -89,6 +90,7 @@ defmodule Phoenix.LiveView.Components.MultiSelect do
   attr :wrap,               :boolean, default:  false, doc: "Permit multiline wrapping of selected items"
   attr :title,              :string,  default:  nil,   doc: "Component tooltip title"
   attr :placeholder,        :string,  default:  "Select...", doc: "Placeholder shown on empty input"
+  attr :search_enabled, :boolean,  default:  true, doc: "Show the search input"
   attr :search_placeholder, :string,  default:  "Search...", doc: "Placeholder for the search input"
   attr :search_cbox_titles, :string,  default:  "Clear filter of selected items|Filter selected items",
                                                        doc: "Titles `on|off` of the checked icon in the search checkbox"
@@ -273,7 +275,7 @@ defmodule Phoenix.LiveView.Components.MultiSelect do
         </div>
       </div>
       <div id={"#{@id}-dropdown"} tabindex="0" class={css(:body, true)} {@ddown_events}>
-        <div class="w-full p-0 relative">
+        <div :if={@search_enabled} class="w-full p-0 relative">
           <div class={css(:filter_icons)}>
             <.svg id={"#{@id}-flt-check"} type={:check} titles={@search_cbox_titles} color={css(:icon_check_color)}
                   class={@selected_count == 0 && "opacity-20 pointer-events-none" || nil}/>
