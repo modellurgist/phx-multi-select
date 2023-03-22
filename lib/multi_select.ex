@@ -70,6 +70,7 @@ defmodule Phoenix.LiveView.Components.MultiSelect do
 
     * `:class` - class added to the main `div` of the component
     * `:max_selected` - max number of selected items
+    * `:clear_tags_enabled` - show an icon that clears selected tags
     * `:wrap` - allow to wrap selected tags to multiple lines
     * `:title` - component's title to use as the tooltip
     * `:placeholder` - component's placeholder text
@@ -87,6 +88,7 @@ defmodule Phoenix.LiveView.Components.MultiSelect do
   attr :class,              :string,  default:  nil
   attr :max_selected,       :integer, default:  nil,   doc: "Max number of items selected"
   attr :max_shown,          :integer, default:  100000,doc: "Max number of shown selected tags"
+  attr :clear_tags_enabled, :boolean, default: true, doc: "Show an icon that clears selected tags"
   attr :wrap,               :boolean, default:  false, doc: "Permit multiline wrapping of selected items"
   attr :title,              :string,  default:  nil,   doc: "Component tooltip title"
   attr :placeholder,        :string,  default:  "Select...", doc: "Placeholder shown on empty input"
@@ -269,6 +271,7 @@ defmodule Phoenix.LiveView.Components.MultiSelect do
         </div>
         <div class={css(:main_icons)}>
           <.svg type={:clear} :if={@selected_count > 1}
+            class={@clear_tags_enabled && "" || "hidden"}
             title="Clear all selected items" on_click="checked"
             params={[{"uncheck", "all"}, {"id", @id}]} target={@myself}/>
           <.svg id={@id <> "-updown-icon"} type={:updown} size="6" {@updown_rest}/>
