@@ -275,7 +275,7 @@ defmodule Phoenix.LiveView.Components.MultiSelect do
         </div>
       </div>
       <div id={"#{@id}-dropdown"} tabindex="0" class={css(:body, true)} {@ddown_events}>
-        <div :if={@search_enabled} class="w-full p-0 relative">
+            <div class={"w-full p-0 relative" <> (@search_enabled && "" || " hidden")}>
           <div class={css(:filter_icons)}>
             <.svg id={"#{@id}-flt-check"} type={:check} titles={@search_cbox_titles} color={css(:icon_check_color)}
                   class={@selected_count == 0 && "opacity-20 pointer-events-none" || nil}/>
